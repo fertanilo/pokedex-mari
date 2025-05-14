@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 
 function App() {
   const [pokemones, setPokemones] = useState([])
+  const [busquedapokemon, setBusquedaPokemon] = useState ("")
 
   useEffect(() => {
     const fetchPokemones = async () => {
@@ -35,19 +36,37 @@ function App() {
     fetchPokemones()
   }, [])
 
+    const pokemonesFiltrados = pokemones.filter((p) => {
+    return p.nombre.toLowerCase().includes(busquedapokemon)
+    })
+
   return (
     <>
       <h1>Pokedex</h1>
       <h2>Welcome to the Pokedex</h2>
       <p>ポケモン図鑑へようこそ</p>
-      <h3>Here you can find information about all the pokemons ──★ ˙🍓 ̟ !!</h3>
+      <h3>Here you can find information about all the pokemons ──★  ̟ !!</h3>
+      <p>Find your favorite pokemon!</p>
+     
+     
+     <input
+    className='busqueda'
+    type='text'
+    placeholder='Serch your pokemon:'
+    value={busquedapokemon}
+    onChange={(e) => setBusquedaPokemon (e.target.value.toLowerCase())}
+    />
 
-      {pokemones.map(pokemon => (
+{
+console.log(pokemonesFiltrados)
+}
+
+      {pokemonesFiltrados.map(pokemon => (
         <div className='Card' key={pokemon.id}>
           <h1>{pokemon.nombre} #{pokemon.id}</h1>
           <img src={pokemon.imagen} alt={pokemon.nombre} />
-          <p>Altura: {pokemon.altura / 10} m</p>
-          <p>Peso: {pokemon.peso / 10} Kg</p>
+          <p>  Altura: {pokemon.altura / 10} m   </p>
+          <p>  Peso: {pokemon.peso / 10} Kg  </p>
           <p><strong>Tipos:</strong> {pokemon.tipos}</p>
           <p><strong>Habilidades:</strong> {pokemon.habilidades}</p>
         </div>
